@@ -25,9 +25,7 @@ Given a query that matches at least one listing, the agent completes all three
 tool calls and returns a fit card — in at least 4 of 5 tries.
 
 **Why this target:**
-<!-- Why 4 of 5 and not 5 of 5? Something about your search, probably —
-     "my search is a plain keyword match and some phrasings will miss" is a
-     real answer. -->
+The search tool relies on straightforward keyword overlap rather than semantic vector embeddings, so certain natural-language query variations or synonyms may return a score of zero despite relevant items existing. Allowing 1 out of 5 to fail accounts for lexical mismatch and occasional model formatting hiccups while still holding the end-to-end pipeline accountable.
 
 ---
 
@@ -37,65 +35,36 @@ Given a query that matches no listings, the agent stops before calling
 `suggest_outfit` and returns a message naming what to change — 5 of 5 tries.
 
 **Why this target:**
-<!-- Why is 5 of 5 reasonable here when criterion 1 isn't? What's different
-     about this path? -->
+This is a deterministic code branch rather than an LLM guessing game: `search_listings` explicitly returns an empty list `[]` when no items match, so the control loop has a strict boolean condition to guard the next call. Because checking `if not results:` involves no probabilistic model generation, anything less than 100% reliability indicates a core logic bug.
 
 ---
 
 ## 3. Something about state
 
-<!-- YOU WRITE THIS ONE.
-
-     How would you know that the item your search found is the same item the
-     next tool received? Name something countable or observable.
-
-     This is the criterion people find hardest, because state failure doesn't
-     look like state failure — it looks like a tool problem. Something that
-     compares session["selected_item"] against what actually reached
-     suggest_outfit is the shape you're after. -->
-
-
+When `search_listings` returns one or more results, the dictionary passed as `new_item` into `suggest_outfit` has an `id` that matches the `id` of `session["selected_item"]` — in 5 of 5 tries.
 
 **Why this target:**
-
+Passing data across tools through agent session state is purely deterministic state management. If the agent hallucinates an arbitrary item ID or pulls a stale dictionary from a previous query, the entire downstream outfit recommendation becomes irrelevant, making a strict 5 of 5 requirement essential.
 
 
 ---
 
 ## 4. Something about the fit card
 
-<!-- YOU WRITE THIS ONE.
-
-     The fit card calls a model, so the same input can produce different words
-     each time. That's not a bug — it's the nature of the tool. So what would
-     make it acceptable?
-
-     Think about what you'd actually be unhappy to see. A caption that never
-     mentions the price? Two different items producing the same opening
-     sentence? A card longer than a caption anyone would post? Any of those can
-     be turned into a number. -->
-
-
+Across 5 runs using different valid listings and outfits, the generated fit card contains between 2 and 4 sentences, explicitly cites the item's price and platform, and produces a unique opening sentence for each distinct item — in at least 4 of 5 runs.
 
 **Why this target:**
-
+Because `create_fit_card` calls an LLM with non-zero temperature, phrasing naturally varies and the model might occasionally omit a requested detail like the platform or spill into a fifth sentence. A 4 of 5 target ensures the prompt instructions and grounding constraints are robust without failing the entire suite over an isolated generative quirk.
 
 
 ---
 
 ## 5. Your choice
 
-<!-- YOU WRITE THIS ONE TOO.
-
-     Pick something you actually care about getting right. Speed, the empty
-     wardrobe path, what happens when the model can't be reached, whether the
-     search respects a price ceiling — anything, as long as it names a number
-     or an observable outcome. -->
-
-
+Given a valid matching listing but a wardrobe where `wardrobe["items"]` is an empty list `[]`, `suggest_outfit` returns general standalone styling advice without throwing an exception or returning an empty string, and `create_fit_card` completes successfully — in 5 of 5 tries.
 
 **Why this target:**
-
+Thrift platforms frequently have first-time users who have not yet added pieces to their digital closet. The empty check (`if not wardrobe.get("items"):`) is explicit Python branch logic that can be handled deterministically with a fallback styling prompt, so it should never crash or return empty output.
 
 
 ---
