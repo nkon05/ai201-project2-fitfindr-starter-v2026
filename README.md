@@ -20,29 +20,9 @@
 
 ---
 
-<!-- ─────────────────────────────────────────────────────────────────────────
-     HOW TO USE THIS FILE
-     milestone 1
-
-     This is your submission. Fill each section in as you finish the milestone
-     it belongs to — don't leave it all to the end.
-
-     Unit 3 asks for the first five sections. Unit 4 adds the five below them.
-     Leave the unit 4 sections alone until then; they're here so you know
-     what's coming.
-
-     Everything is pasted as TEXT. No screenshots, no images, no video links.
-     A typed block of output gets full credit; a picture of the same output
-     gets none.
-     ───────────────────────────────────────────────────────────────────────── -->
-
-<!-- ═══════════════════════ UNIT 3 — THE BUILD ═══════════════════════ -->
-
 ## What This Does
 
-<!-- Three or four sentences: what a user asks for, and what they get back. -->
-
-
+FitFindr helps users discover thrifted fashion and immediately visualize how to style it with clothes they already own. A user enters a natural-language search specifying what they are looking for, along with an optional size preference or price ceiling. The agent searches catalog listings, selects the strongest match, and uses an LLM to generate outfit pairings tailored to pieces in the user's existing wardrobe. Finally, it creates a ready-to-post, social-style fit card highlighting the item, its thrift price, the platform, and the overall styling vibe.
 
 ---
 
@@ -152,15 +132,15 @@ I am seriously losing my mind over scoring these vintage Levi's 501 jeans in the
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Descriptions of each of the tools based on the method signatures.
+- *What came back:* Paragraph long description on what their utility may be.
+- *What I changed:* I reformatted them and editing small discrepencies in the sentences from the tools' actual job.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* a skeleton for each of the tools for me to work with
+- *What came back:* a general structure for each tool's body method
+- *What I changed:* I tailored it to fit the project and went off of the skeleton to get it working.
 
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 
