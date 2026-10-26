@@ -22,6 +22,7 @@
 
 <!-- ─────────────────────────────────────────────────────────────────────────
      HOW TO USE THIS FILE
+     milestone 1
 
      This is your submission. Fill each section in as you finish the milestone
      it belongs to — don't leave it all to the end.
