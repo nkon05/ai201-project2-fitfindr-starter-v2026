@@ -48,53 +48,33 @@
 
 ## Tool Inventory
 
-<!-- Four lines per tool. This is worth 2 points and it's the single most
-     common place students lose them.
-
-     "Returns a list" earns NOTHING. The description has to say what is IN
-     the list.
-
-     The empty case isn't optional either — it's the thing your loop branches
-     on, and if you don't decide it here you'll discover it as a crash in
-     Milestone 5. -->
-
 ### `search_listings`
 
-- **What it does:**
-- **Inputs:** <!-- name and type each: `max_price` (float), not "a price" -->
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Searches thrift catalog listings by keyword description, filtering by an inclusive price ceiling and case-insensitive size match
+- **Inputs:** description (str), size (str | None), max_price (float | None)
+- **Returns:** A list of matching listing dicts ranked by keyword relevance (up to config.SEARCH_RESULT_LIMIT), each containing id, title, description, category, style_tags, size, condition, price, colors, brand, and platform.
+- **When it has nothing:** An empty list ([]).
 
 ### `suggest_outfit`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Generates one or two tailored outfit combinations combining a selected thrift listing with existing wardrobe pieces via model completion, falling back to general styling advice if the wardrobe has no items.
+- **Inputs:** new_item (dict), wardrobe (dict)
+- **Returns:** A non-empty string containing specific outfit combinations naming pieces from the user's wardrobe.
+- **When it has nothing:** A non-empty string containing general standalone styling advice for the item rather than raising an exception or returning "".
 
 ### `create_fit_card`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Generates an authentic, social-post-style caption (two to four sentences) highlighting the thrifted item, its vibe, price, and platform based on a suggested outfit.
+- **Inputs:** outfit (str), new_item (dict).
+- **Returns:** A two-to-four sentence post caption (str) mentioning the item title, price, platform, and outfit styling context.
+- **When it has nothing:** A fallback descriptive message string explaining that no outfit context was provided, rather than raising an exception or returning "".
 
 ---
 
 ## Planning Loop
 
-<!-- Your branch rule, stated as a rule — the condition AND both paths — plus
-     the file and function that holds it.
-
-     Like this:
-       "If search_listings returns an empty list, put a message in the session
-        and stop. Otherwise take the first result and go to suggest_outfit."
-        — agent.py::run_agent
-
-     The grader checks your code against what you claim here, so the file and
-     function have to be real. -->
-
-**Branch rule:**
+**Branch rule:** If search_listings returns an empty list, put a message in the session
+        and stop. Otherwise take the first result and go to suggest_outfit.
 
 **Where it lives:** `agent.py::run_agent`
 
